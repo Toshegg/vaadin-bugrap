@@ -1,0 +1,90 @@
+
+<link rel="import" href="../shared-styles.html">
+
+
+<dom-module id="top-menu">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        border-bottom: 1px solid #666;
+        align-items: center;
+        padding-bottom: 5px;
+      }
+
+      :host .button {
+        padding: 10px; 
+      }
+
+      :host .button.report-bug {
+        padding-left: 0;
+      }
+
+      :host .request-feature, :host .manage-project {
+        border-left: 1px solid #666;
+      }
+
+      :host .search-issue {
+        margin-left: auto;
+        position: relative;
+      }
+
+      :host .search-issue input {
+        height: 30px;
+        border-radius: 10px;
+        border: 2px solid #a8a8a8;
+        font-size: 15px;
+        padding: 5px;
+        padding-left: 30px;
+        outline: none;
+        width: 300px;
+      }
+
+      :host .search-issue iron-icon {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translate(0, -50%);
+      }
+    </style>
+
+    <div class="report-bug button">
+      <iron-icon icon="icons:lightbulb-outline"></iron-icon>
+      <span>Record a bug</span>
+    </div>
+    <div class="request-feature button">
+      <iron-icon icon="icons:bug-report"></iron-icon>
+      <span>Request a feature</span>
+    </div>
+    <div class="manage-project button">
+      <iron-icon icon="icons:settings"></iron-icon>
+      <span>Manage project</span>
+    </div>
+    <div class="search-issue">
+      <iron-icon icon="icons:search"></iron-icon>
+      <iron-input bind-value="{{issueTitleFilter}}">
+        <input type="text" placeholder="Search reports...">
+      </iron-input>
+    </div>
+
+  </template>
+
+  <script>
+    class TopMenu extends Polymer.Element {
+      static get is() { return 'top-menu'; }
+
+      static get properties () {
+        return {
+          issueTitleFilter: {
+            type: String,
+            notify: true
+          }
+        }
+      }
+
+    }
+
+
+    window.customElements.define(TopMenu.is, TopMenu);
+  </script>
+</dom-module>

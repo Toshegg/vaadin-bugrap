@@ -11,7 +11,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="issues-list.html">
+<link rel="import" href="components/top-menu.html">
 <link rel="import" href="select-project.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+
 
 <dom-module id="issues-list-view">
   <template>
@@ -32,13 +37,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       select-project {
         flex-basis: 60%;
       }
+
+      :host top-menu {
+        width: 100%;
+      }
+
     </style>
 
 
-    <div class="row top-menu">
+    <div class="row">
       <select-project selected-project="{{selectedProject}}"></select-project>
     </div>
-    <issues-list></issues-list>
+    <div class="row">
+      <top-menu issue-title-filter="{{issueTitleFilter}}"></top-menu>
+    </div>
+    <issues-list issue-title-filter="[[issueTitleFilter]]"></issues-list>
 
   </template>
 
@@ -50,6 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           selectedProject: {
             type: Object,
+            notify: true
+          },
+          issueTitleFilter: {
+            type: String,
             notify: true
           }
         }
