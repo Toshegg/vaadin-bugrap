@@ -1,17 +1,27 @@
 
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="issue-priority.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
 
 <dom-module id="issues-list">
   <template>
+    <style>
+    </style>
+
     <!-- Fetch an array of users to be shown in the grid -->
     <iron-ajax auto url="/dummy/issues.json" handle-as="json" last-response="{{issues}}"></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
     <vaadin-grid items='[[issues]]'>
       <vaadin-grid-column>
-        <template class="header">Priority</template>
-        <template>[[item.priority]]</template>
+        <template class="header">
+          <vaadin-grid-sorter path="priority">Priority</vaadin-grid-sorter>
+        </template>
+        <template>
+          <issue-priority priority="[[item.priority]]"></issue-priority>
+        </template>
       </vaadin-grid-column>
       <vaadin-grid-column>
         <template class="header">Type</template>

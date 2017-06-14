@@ -11,17 +11,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="issues-list.html">
+<link rel="import" href="select-project.html">
 
 <dom-module id="issues-list-view">
   <template>
     <style include="shared-styles">
       :host {
-        display: block;
+        display: flex;
+        flex-flow: column;
+      }
 
-        padding: 10px;
+      :host .row {
+        display: flex;
+      }
+
+      :host .top-menu {
+        padding: 0 10px;
+      }
+
+      :host select-project {
+        flex-basis: 60%;
       }
     </style>
 
+
+    <div class="row top-menu">
+      <select-project selected-project="{{selectedProject}}"></select-project>
+    </div>
     <issues-list></issues-list>
 
   </template>
@@ -29,6 +45,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class IssuesListView extends Polymer.Element {
       static get is() { return 'issues-list-view'; }
+      static get properties () {
+        return {
+          selectedProject: {
+            type: Object,
+            notify: true
+          }
+        }
+      }
     }
 
     window.customElements.define(IssuesListView.is, IssuesListView);

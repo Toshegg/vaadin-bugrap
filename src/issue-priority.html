@@ -1,14 +1,21 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/image-icons.html">
 
 <dom-module id="issue-priority">
   <template>
     <style>
       :host {
-        display: block;
-
-        padding: 10px 20px;
+        display: flex;
+      }
+      :host .icon {
+        color: #a8a8a8;
       }
     </style>
+
+    <template is="dom-repeat" items="[[icons]]">
+      <span class="icon">▊</span>
+    </template>
 
   </template>
 
@@ -17,10 +24,15 @@
       static get is() { return 'issue-priority'; }
       static get properties() {
         return {
-          // This shouldn't be neccessary, but the Analyzer isn't picking up
-          // Polymer.Element#rootPath
-          rootPath: String,
+          priority: {
+            type: Number,
+            notify: true,
+            observer: '_priorityChanged'
+          }
         };
+      }
+      _priorityChanged (newV, oldV) {
+        this.icons = new Array(newV);
       }
     }
 
