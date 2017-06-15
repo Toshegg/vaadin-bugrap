@@ -1,0 +1,58 @@
+
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="issues-list">
+  <template>
+    <!-- Fetch an array of users to be shown in the grid -->
+    <iron-ajax auto url="/dummy/issues.json" handle-as="json" last-response="{{issues}}"></iron-ajax>
+    <!-- The array is set as the <vaadin-grid>'s "items" property -->
+    <vaadin-grid items='[[issues]]'>
+      <vaadin-grid-column>
+        <template class="header">Priority</template>
+        <template>[[item.priority]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Type</template>
+        <template>[[item.type]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Summary</template>
+        <template>[[item.summary]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Assigned to</template>
+        <template>[[item.assigned_to.first_name]] [[item.assigned_to.surname]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Last modified</template>
+        <template>[[_formatDate(item.last_modified)]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Reported</template>
+        <template>[[_formatDate(item.reported)]]</template>
+      </vaadin-grid-column>
+    </vaadin-grid>
+
+
+  </template>
+
+  <script>
+    class IssuesList extends Polymer.Element {
+      static get is() { return 'issues-list'; }
+
+      static get properties () {
+        return {
+        }
+      }
+
+      _formatDate (date) {
+        return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+    }
+
+
+    window.customElements.define(IssuesList.is, IssuesList);
+  </script>
+</dom-module>
