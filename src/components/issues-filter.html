@@ -1,0 +1,62 @@
+
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="top-menu.html">
+<link rel="import" href="select-project.html">
+<link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+
+<dom-module id="issues-filter">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-flow: column;
+      }
+
+      :host .row {
+        display: flex;
+        margin: 0 10px 5px 10px;
+      }
+
+      :host select-project {
+        flex-basis: 60%;
+      }
+
+      :host top-menu {
+        width: 100%;
+      }
+
+    </style>
+
+    <div class="row">
+      <select-project selected-project="{{issuesFilter.selectedProject}}"></select-project>
+    </div>
+    <div class="row">
+      <top-menu issue-title-filter="{{issuesFilter.title}}"></top-menu>
+    </div>
+
+  </template>
+
+  <script>
+    class IssuesFilter extends Polymer.Element {
+      static get is() { return 'issues-filter'; }
+
+      static get properties () {
+        return {
+          issuesFilter: {
+            type: Object,
+            notify: true,
+            value: {}
+          }
+        }
+      }
+
+      _sampleObserver (newV, oldV) {
+        console.log(newV);
+      }
+
+    }
+
+
+    window.customElements.define(IssuesFilter.is, IssuesFilter);
+  </script>
+</dom-module>
