@@ -1,7 +1,6 @@
-
-<link rel="import" href="../shared-styles.html">
 <link rel="import" href="top-menu.html">
 <link rel="import" href="select-project.html">
+<link rel="import" href="bottom-filters.html">
 <link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 
 <dom-module id="issues-filter">
@@ -33,6 +32,9 @@
     <div class="row">
       <top-menu issue-title-filter="{{issuesFilter.title}}"></top-menu>
     </div>
+    <div class="row">
+      <bottom-filters></bottom-filters>
+    </div>
 
   </template>
 
@@ -48,10 +50,6 @@
             value: {}
           }
         }
-      }
-
-      _sampleObserver (newV, oldV) {
-        console.log(newV);
       }
 
     }

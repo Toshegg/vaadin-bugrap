@@ -1,0 +1,63 @@
+<link rel="import" href="reports-bar.html">
+
+<dom-module id="bottom-filters">
+  <template>
+    <style>
+      :host {
+        width: 100%;
+      }
+
+      :host .row {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+      }
+
+      :host .reports-for-text {
+        flex-basis: 5%;
+      }
+
+      :host vaadin-combo-box {
+        padding: 0;
+        padding-left: 10px;
+        flex-basis: 15%;
+      }
+
+      :host reports-bar {
+        flex-basis: 80%;
+        margin-left: 10px;
+      }
+
+    </style>
+
+    <div class="row">
+      <span class="reports-for-text">Reports for:</span>
+      <vaadin-combo-box filtered-items="[[items]]" label="Project" item-label-path="title" on-filter-changed="_projectsFilter" selected-item="{{selectedProject}}">
+        <template>
+          [[item.title]]
+        </template>
+      </vaadin-combo-box>
+
+      <reports-bar closed-issues="1" non-resolved-issues="2" unassigned-issues="121"></reports-bar>
+
+    </div>
+    <div class="row">
+    </div>
+
+  </template>
+
+  <script>
+    class BottomFilters extends Polymer.Element {
+      static get is() { return 'bottom-filters'; }
+
+      static get properties () {
+        return {
+        }
+      }
+
+    }
+
+
+    window.customElements.define(BottomFilters.is, BottomFilters);
+  </script>
+</dom-module>
