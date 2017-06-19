@@ -12,7 +12,7 @@
 
       :host .closed-issues {
         background: #666;
-        flex-grow: 1;
+        //flex-grow: 1;
         border-radius: 10px 0 0 10px;
         padding-left: 10px;
         color: #fff;
@@ -35,9 +35,9 @@
     </style>
 
     <div class="reports-bar">
-      <div class="closed-issues">[[closedIssues]]</div>
-      <div class="non-resolved-issues">[[nonResolvedIssues]]</div>
-      <div class="unassigned-issues">[[unassignedIssues]]</div>
+      <div class="closed-issues" style$="width: [[closedIssuesWidth]]%">[[closedIssues]]</div>
+      <div class="non-resolved-issues" style$="width: [[nonResolvedIssuesWidth]]%">[[nonResolvedIssues]]</div>
+      <div class="unassigned-issues" style$="width: [[unassignedIssuesWidth]]%">[[unassignedIssues]]</div>
     </div>
 
   </template>
@@ -48,6 +48,18 @@
 
       static get properties () {
         return {
+          closedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(closedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
+          nonResolvedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(nonResolvedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
+          unassignedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(unassignedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
           closedIssues: {
             type: Number,
             value: 0
@@ -61,6 +73,10 @@
             value: 0
           }
         }
+      }
+
+      _computeIssuesWidth (targetIssues, closedIssues, nonResolvedIssues, unassignedIssues) {
+        return (targetIssues / (closedIssues, nonResolvedIssues, unassignedIssues) ) * 100;
       }
 
     }
