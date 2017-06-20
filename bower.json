@@ -21,6 +21,7 @@
     "vaadin-combo-box": "v2.0.0-alpha4",
     "iron-input": "2.0.0",
     "iron-list": "2.0.0"
+    "vaadin-button": "v1.0.0-beta3"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3",

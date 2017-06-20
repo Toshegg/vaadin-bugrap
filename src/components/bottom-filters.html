@@ -1,4 +1,5 @@
 <link rel="import" href="reports-bar.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
 
 <dom-module id="bottom-filters">
   <template>
@@ -7,32 +8,50 @@
         width: 100%;
       }
 
-      :host .row {
+      .row {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         width: 100%;
       }
 
-      :host .reports-for-text {
-        flex-basis: 5%;
+      .row + .row {
+        margin-top: 10px;
       }
 
-      :host vaadin-combo-box {
+      label {
+        white-space: nowrap;
+        margin-right: 10px;
+      }
+
+      vaadin-combo-box {
         padding: 0;
-        padding-left: 10px;
         flex-basis: 15%;
       }
 
-      :host reports-bar {
+      reports-bar {
         flex-basis: 80%;
         margin-left: 10px;
       }
 
+      .radio-button-group {
+        display: flex;
+      }
+
+      .radio-button-group vaadin-button:first-child {
+        border-radius: 5px 0 0 5px;
+      }
+
+      .radio-button-group vaadin-button:last-child {
+        border-radius: 0 5px 5px 0;
+      }
+
     </style>
 
+    <iron-ajax id="versions" url="/dummy/versions.json" handle-as="json" last-response="{{versions}}" auto></iron-ajax>
+
     <div class="row">
-      <span class="reports-for-text">Reports for:</span>
-      <vaadin-combo-box filtered-items="[[items]]" label="Project" item-label-path="title" on-filter-changed="_projectsFilter" selected-item="{{selectedProject}}">
+      <label class="reports-for-text">Reports for:</label>
+      <vaadin-combo-box items="[[versions]]" label="Project" item-label-path="title" selected-item="{{issuesFilter.version}}">
         <template>
           [[item.title]]
         </template>
@@ -42,6 +61,18 @@
 
     </div>
     <div class="row">
+      <label for="radio-button-group">Assignee: </label>
+      <div class="radio-button-group">
+        <vaadin-button id="onlyMe" selected$="[[onlyMe]]">Only me</vaadin-button>
+        <vaadin-button id="everyone" selected$="[[everyone]]">Everyone</vaadin-button>
+      </div>
+
+      <label for="">Status</label>
+      <span class="radio-button-group">
+        <vaadin-button id="openStatus" selected$="[[openStatus]]">Open</vaadin-button>
+        <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]">All Kinds</vaadin-button>
+        <vaadin-button id="customStatus" selected$="[[customStatus]]">Custom</vaadin-button>
+      </span>
     </div>
 
   </template>
@@ -52,11 +83,38 @@
 
       static get properties () {
         return {
+          onlyMe: {
+            type: Boolean,
+            value: true
+          },
+          everyone: {
+            type: Boolean,
+            value: false
+          }
+        }
+      }
+
+      ready () {
+        super.ready();
+
+        this.$.onlyMe.addEventListener('click', this._changeAssigneeFilter.bind(this, 'onlyMe'))
+        this.$.everyone.addEventListener('click', this._changeAssigneeFilter.bind(this, 'everyone'))
+      }
+
+      _changeAssigneeFilter(assignee) {
+        switch (assignee) {
+          case 'onlyMe':
+            this.onlyMe = true;
+            this.everyone = false;
+            break;
+          case 'everyone':
+            this.onlyMe = false;
+            this.everyone = true;
+            break;
         }
       }
 
     }
-
 
     window.customElements.define(BottomFilters.is, BottomFilters);
   </script>
