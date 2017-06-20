@@ -8,7 +8,7 @@
       :host {
         display: flex;
       }
-      :host .icon {
+      .icon {
         color: #a8a8a8;
       }
     </style>
@@ -26,7 +26,6 @@
         return {
           priority: {
             type: Number,
-            notify: true,
             observer: '_priorityChanged'
           }
         };

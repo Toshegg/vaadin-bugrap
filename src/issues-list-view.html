@@ -21,15 +21,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         flex-flow: column;
       }
 
-      :host .row {
+      .row {
         display: flex;
       }
 
-      :host .top-menu {
+      .top-menu {
         padding: 0 10px;
       }
 
-      :host select-project {
+      select-project {
         flex-basis: 60%;
       }
     </style>
@@ -45,6 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class IssuesListView extends Polymer.Element {
       static get is() { return 'issues-list-view'; }
+
       static get properties () {
         return {
           selectedProject: {

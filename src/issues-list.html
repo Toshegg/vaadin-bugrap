@@ -8,13 +8,11 @@
 
 <dom-module id="issues-list">
   <template>
-    <style>
-    </style>
 
     <!-- Fetch an array of users to be shown in the grid -->
     <iron-ajax auto url="/dummy/issues.json" handle-as="json" last-response="{{issues}}"></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
-    <vaadin-grid items='[[issues]]'>
+    <vaadin-grid items="[[issues]]">
       <vaadin-grid-column>
         <template class="header">
           <vaadin-grid-sorter path="priority">Priority</vaadin-grid-sorter>
@@ -51,11 +49,6 @@
   <script>
     class IssuesList extends Polymer.Element {
       static get is() { return 'issues-list'; }
-
-      static get properties () {
-        return {
-        }
-      }
 
       _formatDate (date) {
         return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });

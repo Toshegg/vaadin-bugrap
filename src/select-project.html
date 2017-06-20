@@ -6,13 +6,10 @@
 
 <dom-module id="select-project">
   <template>
-    <style>
-    </style>
-
     <!-- Fetch an array of users to be shown in the grid -->
-    <iron-ajax id="projects" url="/dummy/projects.json" handle-as="json" last-response="{{projects}}"></iron-ajax>
+    <iron-ajax id="projects" url="/dummy/projects.json" handle-as="json" last-response="{{projects}}" auto></iron-ajax>
 
-    <vaadin-combo-box filtered-items="[[items]]" label="Project" item-label-path="title" on-filter-changed="_projectsFilter" selected-item="{{selectedProject}}">
+    <vaadin-combo-box items="[[projects]]" label="Project" item-label-path="title" selected-item="{{selectedProject}}">
       <template>
         [[item.title]]
       </template>
@@ -24,7 +21,7 @@
     class SelectProject extends Polymer.Element {
       static get is() { return 'select-project'; }
 
-      static get properties () {
+      static get properties() {
         return {
           selectedProject: {
             type: Object,
@@ -41,27 +38,14 @@
         }
       }
 
-      constructor () {
-        super();
+      static get observers() {
+        return ['_projectsChanged(projects)'];
       }
 
-      ready () {
-        super.ready();
-        this._fetchProjects();
-      }
-
-      _fetchProjects () {
-        var projectsRequest = this.$.projects.generateRequest();
-        
-        projectsRequest.completes.then((function () {
-          this.selectedProject = this.projects[0];
-        }).bind(this));
-      }
-
-      _projectsFilter (e) {
-        this.items = this.projects.filter(function (el) {
-          return el.title.toLocaleLowerCase().indexOf(e.detail.value.toLocaleLowerCase()) != -1;
-        })
+      _projectsChanged(projects) {
+        if (projects) {
+          this.selectedProject = projects[0];
+        }
       }
 
     }
