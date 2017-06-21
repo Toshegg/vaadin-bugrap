@@ -1,0 +1,56 @@
+
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="select-project">
+  <template>
+    <!-- Fetch an array of users to be shown in the grid -->
+    <iron-ajax id="projects" url="/dummy/projects.json" handle-as="json" last-response="{{projects}}" auto></iron-ajax>
+
+    <vaadin-combo-box items="[[projects]]" label="Project" item-label-path="title" selected-item="{{selectedProject}}">
+      <template>
+        [[item.title]]
+      </template>
+    </vaadin-combo-box>
+
+  </template>
+
+  <script>
+    class SelectProject extends Polymer.Element {
+      static get is() { return 'select-project'; }
+
+      static get properties() {
+        return {
+          selectedProject: {
+            type: Object,
+            notify: true
+          },
+          items: {
+            type: Array,
+            value: []
+          },
+          projects: {
+            type: Array,
+            value: []
+          }
+        }
+      }
+
+      static get observers() {
+        return ['_projectsChanged(projects)'];
+      }
+
+      _projectsChanged(projects) {
+        if (projects) {
+          this.selectedProject = projects[0];
+        }
+      }
+
+    }
+
+
+    window.customElements.define(SelectProject.is, SelectProject);
+  </script>
+</dom-module>
