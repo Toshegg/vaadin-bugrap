@@ -1,5 +1,8 @@
 <link rel="import" href="reports-bar.html">
 <link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../bower_components/vaadin-context-menu/vaadin-context-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <dom-module id="bottom-filters">
   <template>
@@ -21,6 +24,10 @@
       label {
         white-space: nowrap;
         margin-right: 10px;
+      }
+
+      .status-label {
+        margin-left: 10px;
       }
 
       vaadin-combo-box {
@@ -61,18 +68,30 @@
 
     </div>
     <div class="row">
-      <label for="radio-button-group">Assignee: </label>
+      <label for="radio-button-group">Assignee</label>
       <div class="radio-button-group">
         <vaadin-button id="onlyMe" selected$="[[onlyMe]]">Only me</vaadin-button>
         <vaadin-button id="everyone" selected$="[[everyone]]">Everyone</vaadin-button>
       </div>
 
-      <label for="">Status</label>
-      <span class="radio-button-group">
-        <vaadin-button id="openStatus" selected$="[[openStatus]]">Open</vaadin-button>
-        <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]">All Kinds</vaadin-button>
-        <vaadin-button id="customStatus" selected$="[[customStatus]]">Custom</vaadin-button>
-      </span>
+      <label class="status-label">Status</label>
+      <vaadin-context-menu selector="#customStatus" id="buttonMenu" open-on="click" close-on="none">
+        <template>
+          <paper-listbox>
+            <paper-item>First menu item</paper-item>
+            <paper-item>Second menu item</paper-item>
+          </paper-listbox>
+        </template>
+
+        <span class="radio-button-group">
+          <vaadin-button id="openStatus" selected$="[[openStatus]]">Open</vaadin-button>
+          <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]">All Kinds</vaadin-button>
+          <vaadin-button id="customStatus" selected$="[[customStatus]]">
+            <span>Custom</span>
+            <iron-icon icon="icons:arrow-drop-down"></iron-icon>
+          </vaadin-button>
+        </span>
+      </vaadin-context-menu>
     </div>
 
   </template>
@@ -87,18 +106,24 @@
             type: Boolean,
             value: true
           },
-          everyone: {
+          everyone: Boolean,
+          openStatus: {
             type: Boolean,
-            value: false
-          }
+            value: true
+          },
+          allKindsStatus: Boolean
         }
       }
 
       ready () {
         super.ready();
 
-        this.$.onlyMe.addEventListener('click', this._changeAssigneeFilter.bind(this, 'onlyMe'))
-        this.$.everyone.addEventListener('click', this._changeAssigneeFilter.bind(this, 'everyone'))
+        this.$.onlyMe.addEventListener('click', this._changeAssigneeFilter.bind(this, 'onlyMe'));
+        this.$.everyone.addEventListener('click', this._changeAssigneeFilter.bind(this, 'everyone'));
+
+        this.$.openStatus.addEventListener('click', this._changeStatusFilter.bind(this, 'open'));
+        this.$.allKindsStatus.addEventListener('click', this._changeStatusFilter.bind(this, 'allKinds'));
+        this.$.buttonMenu.$.overlay.backdropElement.hidden = true;
       }
 
       _changeAssigneeFilter(assignee) {
@@ -112,6 +137,20 @@
             this.everyone = true;
             break;
         }
+      }
+
+      _changeStatusFilter(issueStatus) {
+        switch (issueStatus) {
+          case 'open':
+            this.openStatus = true;
+            this.allKindsStatus = false;
+            break;
+          case 'allKinds':
+            this.allKindsStatus = true;
+            this.openStatus = false;
+            break;
+        }
+
       }
 
     }
