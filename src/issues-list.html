@@ -8,7 +8,7 @@
   <template>
 
     <!-- Fetch an array of users to be shown in the grid -->
-    <iron-ajax id="issues" url="/dummy/issues.json" handle-as="json" last-response="{{issues}}"></iron-ajax>
+    <iron-ajax id="issues" url="/dummy/issues.json" handle-as="json" last-response="{{issues}}" auto></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
     <vaadin-grid items="[[issues]]">
       <vaadin-grid-column>
@@ -46,19 +46,14 @@
 
   <script>
     class IssuesList extends Polymer.Element {
-      static get is() { return 'issues-list'; }
+      static get is() { 
+        return 'issues-list';
+      }
 
       _formatDate (date) {
         return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       }
-
-      _searchIssueByTitle (newV, oldV) {
-        this.filteredIssues = this.issues.filter(function (el) {
-          return el.summary.toLocaleLowerCase().indexOf(newV.toLocaleLowerCase()) != -1;
-        })
-      }
     }
-
 
     window.customElements.define(IssuesList.is, IssuesList);
   </script>
