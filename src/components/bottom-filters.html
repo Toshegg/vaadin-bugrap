@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
 <link rel="import" href="../../bower_components/vaadin-context-menu/vaadin-context-menu.html">
 <link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../bower_components/vaadin-checkbox/vaadin-checkbox.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
@@ -80,8 +81,14 @@
       <vaadin-context-menu selector="#customStatus" id="buttonMenu" open-on="click" close-on="none">
         <template>
           <paper-listbox>
-            <paper-item>First menu item</paper-item>
-            <paper-item>Second menu item</paper-item>
+            <paper-item><vaadin-checkbox>Open</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Fixed</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Invalid</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Won't fix</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Can't fix</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Duplicate</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Works for me</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Needs more information</vaadin-checkbox></paper-item>
           </paper-listbox>
         </template>
 
