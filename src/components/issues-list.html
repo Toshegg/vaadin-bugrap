@@ -67,8 +67,19 @@
         }
       }
 
+      static get observers () {
+        return ['_issuesChanged(issues)'];
+      }
+
       _formatDate (date) {
         return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+
+      _issuesChanged () {
+        if (this.issues && this.issues.length) {
+          this.selectedIssue = this.issues[0];
+        }
       }
 
       _issueSelected (newV, oldV) {

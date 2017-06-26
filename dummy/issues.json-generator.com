@@ -1,11 +1,16 @@
 [
-  '{{repeat(5, 7)}}',
+  '{{repeat(50, 70)}}',
   {
     _id: '{{objectId()}}',
     priority: '{{integer(1, 5)}}',
     type: '{{random("Bug", "Feature", "Task")}}',
     summary: '{{lorem(1, "sentences")}}',
     assigned_to: {
+      id: '{{index()}}',
+      first_name: '{{firstName()}}',
+      surname: '{{surname()}}'
+    },
+    reported_by: {
       id: '{{index()}}',
       first_name: '{{firstName()}}',
       surname: '{{surname()}}'
