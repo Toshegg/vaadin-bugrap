@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="button-styles.html">
 <link rel="import" href="components/issues-list.html">
@@ -21,24 +20,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
         height: 100%;
       }
 
-      issues-filter, issues-list {
-        flex-shrink: 0;
+      issues-list {
+        flex: 1;
       }
     </style>
 
 
     <issues-filter id="issuesFilter"></issues-filter>
-    <issues-list style="height: [[issuesListHeight]]px" issues-filter="[[issuesFilter]]"></issues-list>
+    <issues-list issues-filter="[[issuesFilter]]"></issues-list>
 
   </template>
 
   <script>
-    class IssuesListView extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element) {
-      static get is() { 
+    class IssuesListView extends Polymer.Element {
+      static get is() {
         return 'issues-list-view';
       }
 
@@ -49,14 +48,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             notify: true
           }
         }
-      }
-
-      constructor () {
-        super();
-
-        this.addEventListener('iron-resize', function () { 
-          this.issuesListHeight = this.offsetHeight - this.$.issuesFilter.offsetHeight;
-        })
       }
     }
 

@@ -9,7 +9,11 @@
   <template>
 
     <style>
+      :host {
+        display: flex;
+      }
       vaadin-grid {
+        width: 100%;
         height: 100%;
       }
     </style>
@@ -53,7 +57,7 @@
 
   <script>
     class IssuesList extends Polymer.Element {
-      static get is() { 
+      static get is() {
         return 'issues-list';
       }
 
