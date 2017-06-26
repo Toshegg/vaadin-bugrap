@@ -23,11 +23,12 @@
     "vaadin-context-menu": "v3.0.0-alpha1",
     "paper-listbox": "^2.0.0",
     "paper-item": "^2.0.0",
-    "vaadin-checkbox": "v1.0.0-alpha1"
+    "vaadin-checkbox": "v1.0.0-alpha1",
+    "iron-resizable-behavior": "^2.0.1"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3",
-    "iron-resizable-behavior": "^v2.0.0",
+    "iron-resizable-behavior": "^2.0.0",
     "iron-scroll-target-behavior": "^v2.0.0",
     "iron-a11y-keys-behavior": "^v2.0.0",
     "webcomponentsjs": "^v1.0.0",

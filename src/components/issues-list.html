@@ -8,6 +8,12 @@
 <dom-module id="issues-list">
   <template>
 
+    <style>
+      vaadin-grid {
+        height: 100%;
+      }
+    </style>
+
     <!-- Fetch an array of users to be shown in the grid -->
     <iron-ajax id="issues" url="/dummy/issues.json" handle-as="json" last-response="{{issues}}" auto></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
