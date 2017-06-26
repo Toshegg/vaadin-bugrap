@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="single-issue">
+  <template>
+    <style></style>
+
+    <div class="issue-summary">
+      [[issue.summary]]
+    </div>
+  </template>
+
+  <script>
+    class SingleIssue extends Polymer.Element {
+      static get is () {
+        return 'single-issue';
+      }
+
+      static get properties () {
+        return {
+          issue: {
+            type: Object
+          }
+        }
+      }
+
+    }
+
+    window.customElements.define(SingleIssue.is, SingleIssue);
+  </script>
+</dom-module>

@@ -10,10 +10,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../bower_components/vaadin-split-layout/vaadin-split-layout.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="button-styles.html">
 <link rel="import" href="components/issues-list.html">
 <link rel="import" href="components/issues-filter.html">
+<link rel="import" href="components/single-issue.html">
 
 
 <dom-module id="issues-list-view">
@@ -23,17 +25,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: flex;
         flex-flow: column;
         height: 100%;
+        --vaadin-split-layout-splitter-display: none;
       }
 
       issues-filter, issues-list {
         flex-shrink: 0;
       }
+
+      #secondary {
+        height: 0;
+      }
+
+      vaadin-split-layout {
+        --vaadin-split-layout-splitter: {
+          display: var(--vaadin-split-layout-splitter-display);
+        }
+      }
     </style>
 
 
-    <issues-filter id="issuesFilter"></issues-filter>
-    <issues-list style="height: [[issuesListHeight]]px" issues-filter="[[issuesFilter]]"></issues-list>
+    <vaadin-split-layout vertical>
+      <div>
+        <issues-filter id="issuesFilter"></issues-filter>
+        <issues-list style="height: [[issuesListHeight]]px" issues-filter="[[issuesFilter]]" selected-issue="{{selectedIssue}}"></issues-list>
+      </div>
 
+      <div id="secondary" style="height: [[secondaryHeight]]px">
+        <template is="dom-if" if="[[selectedIssue]]">
+          <single-issue issue="[[selectedIssue]]"></single-issue>
+        </template>
+      </div>
+    </vaadin-split-layout>
   </template>
 
   <script>
@@ -47,6 +69,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           issuesFilter: {
             type: Object,
             notify: true
+          },
+          selectedIssue: {
+            type: Object,
+            observer: '_selectedIssueChanged'
           }
         }
       }
@@ -54,9 +80,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       constructor () {
         super();
 
-        this.addEventListener('iron-resize', function () { 
-          this.issuesListHeight = this.offsetHeight - this.$.issuesFilter.offsetHeight;
-        })
+        this.addEventListener('iron-resize', this.resizeElements)
+      }
+
+      _selectedIssueChanged(newV) {
+        this.secondaryHeight = newV ? 200 : 0;
+
+        if (newV) {
+          this.updateStyles({
+            '--vaadin-split-layout-splitter-display': 'block'
+          });
+        } else {
+          this.updateStyles({
+            '--vaadin-split-layout-splitter-display': 'none'
+          });
+        }
+
+        this.resizeElements();
+      }
+
+      resizeElements () {
+        this.issuesListHeight = this.offsetHeight - this.$.issuesFilter.offsetHeight - this.$.secondary.offsetHeight;
       }
     }
 

@@ -10,14 +10,14 @@
 
     <style>
       vaadin-grid {
-        height: 100%;
+        height: inherit;
       }
     </style>
 
     <!-- Fetch an array of users to be shown in the grid -->
     <iron-ajax id="issues" url="/dummy/issues.json" handle-as="json" last-response="{{issues}}" auto></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
-    <vaadin-grid items="[[issues]]">
+    <vaadin-grid items="[[issues]]" active-item="{{selectedIssue}}" id="grid">
       <vaadin-grid-column>
         <template class="header">
           <vaadin-grid-sorter path="priority">Priority</vaadin-grid-sorter>
@@ -57,8 +57,22 @@
         return 'issues-list';
       }
 
+      static get properties () {
+        return {
+          selectedIssue: {
+            type: Object,
+            observer: '_issueSelected',
+            notify: true
+          }
+        }
+      }
+
       _formatDate (date) {
         return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      _issueSelected (newV, oldV) {
+        this.$.grid.selectedItems = newV ? [newV] : [];
       }
     }
 
