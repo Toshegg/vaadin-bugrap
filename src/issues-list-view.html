@@ -10,45 +10,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
-<link rel="import" href="issues-list.html">
-<link rel="import" href="select-project.html">
+<link rel="import" href="button-styles.html">
+<link rel="import" href="components/issues-list.html">
+<link rel="import" href="components/issues-filter.html">
+
 
 <dom-module id="issues-list-view">
   <template>
     <style include="shared-styles">
-      :host {
-        display: flex;
-        flex-flow: column;
-      }
-
-      .row {
-        display: flex;
-      }
-
-      .top-menu {
-        padding: 0 10px;
-      }
-
-      select-project {
-        flex-basis: 60%;
-      }
     </style>
 
 
-    <div class="row top-menu">
-      <select-project selected-project="{{selectedProject}}"></select-project>
-    </div>
-    <issues-list></issues-list>
+    <issues-filter></issues-filter>
+    <issues-list issues-filter="[[issuesFilter]]"></issues-list>
 
   </template>
 
   <script>
     class IssuesListView extends Polymer.Element {
-      static get is() { return 'issues-list-view'; }
+      static get is() { 
+        return 'issues-list-view';
+      }
 
       static get properties () {
         return {
-          selectedProject: {
+          issuesFilter: {
             type: Object,
             notify: true
           }

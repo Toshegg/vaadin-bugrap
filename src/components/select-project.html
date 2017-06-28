@@ -1,8 +1,5 @@
-
-<link rel="import" href="shared-styles.html">
-<link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-
+<link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="select-project">
   <template>
@@ -19,7 +16,9 @@
 
   <script>
     class SelectProject extends Polymer.Element {
-      static get is() { return 'select-project'; }
+      static get is() { 
+        return 'select-project';
+      }
 
       static get properties() {
         return {

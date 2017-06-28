@@ -1,16 +1,15 @@
 
-<link rel="import" href="shared-styles.html">
 <link rel="import" href="issue-priority.html">
-<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
-<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 
 
 <dom-module id="issues-list">
   <template>
 
     <!-- Fetch an array of users to be shown in the grid -->
-    <iron-ajax auto url="/dummy/issues.json" handle-as="json" last-response="{{issues}}"></iron-ajax>
+    <iron-ajax id="issues" url="/dummy/issues.json" handle-as="json" last-response="{{issues}}" auto></iron-ajax>
     <!-- The array is set as the <vaadin-grid>'s "items" property -->
     <vaadin-grid items="[[issues]]">
       <vaadin-grid-column>
@@ -48,13 +47,14 @@
 
   <script>
     class IssuesList extends Polymer.Element {
-      static get is() { return 'issues-list'; }
+      static get is() { 
+        return 'issues-list';
+      }
 
       _formatDate (date) {
         return (new Date(date)).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       }
     }
-
 
     window.customElements.define(IssuesList.is, IssuesList);
   </script>

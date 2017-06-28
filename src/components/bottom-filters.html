@@ -1,0 +1,166 @@
+<link rel="import" href="reports-bar.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../bower_components/vaadin-context-menu/vaadin-context-menu.html">
+<link rel="import" href="../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../bower_components/vaadin-checkbox/vaadin-checkbox.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="bottom-filters">
+  <template>
+    <style>
+      :host {
+        width: 100%;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      .row + .row {
+        margin-top: 10px;
+      }
+
+      label {
+        white-space: nowrap;
+        margin-right: 10px;
+      }
+
+      .status-label {
+        margin-left: 10px;
+      }
+
+      vaadin-combo-box {
+        padding: 0;
+        flex-basis: 15%;
+      }
+
+      reports-bar {
+        flex-basis: 80%;
+        margin-left: 10px;
+      }
+
+      .radio-button-group {
+        display: flex;
+      }
+
+      .radio-button-group vaadin-button:first-child {
+        border-radius: 5px 0 0 5px;
+      }
+
+      .radio-button-group vaadin-button:last-child {
+        border-radius: 0 5px 5px 0;
+      }
+
+    </style>
+
+    <iron-ajax id="versions" url="/dummy/versions.json" handle-as="json" last-response="{{versions}}" auto></iron-ajax>
+
+    <div class="row">
+      <label class="reports-for-text">Reports for:</label>
+      <vaadin-combo-box items="[[versions]]" label="Project" item-label-path="title" selected-item="{{issuesFilter.version}}">
+        <template>
+          [[item.title]]
+        </template>
+      </vaadin-combo-box>
+
+      <reports-bar closed-issues="1211" non-resolved-issues="80" unassigned-issues="121"></reports-bar>
+
+    </div>
+    <div class="row">
+      <label for="radio-button-group">Assignee</label>
+      <div class="radio-button-group">
+        <vaadin-button id="onlyMe" selected$="[[onlyMe]]" on-click="_changeAssigneeFilter">Only me</vaadin-button>
+        <vaadin-button id="everyone" selected$="[[everyone]]" on-click="_changeAssigneeFilter">Everyone</vaadin-button>
+      </div>
+
+      <label class="status-label">Status</label>
+      <vaadin-context-menu selector="#customStatus" id="buttonMenu" open-on="click" close-on="none">
+        <template>
+          <paper-listbox>
+            <paper-item><vaadin-checkbox>Open</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Fixed</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Invalid</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Won't fix</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Can't fix</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Duplicate</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Works for me</vaadin-checkbox></paper-item>
+            <paper-item><vaadin-checkbox>Needs more information</vaadin-checkbox></paper-item>
+          </paper-listbox>
+        </template>
+
+        <span class="radio-button-group">
+          <vaadin-button id="openStatus" selected$="[[openStatus]]" on-click="_changeStatusFilter">Open</vaadin-button>
+          <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]" on-click="_changeStatusFilter">All Kinds</vaadin-button>
+          <vaadin-button id="customStatus" selected$="[[customStatus]]">
+            <span>Custom</span>
+            <iron-icon icon="icons:arrow-drop-down"></iron-icon>
+          </vaadin-button>
+        </span>
+      </vaadin-context-menu>
+    </div>
+
+  </template>
+
+  <script>
+    class BottomFilters extends Polymer.Element {
+      static get is() { 
+        return 'bottom-filters';
+      }
+
+      static get properties () {
+        return {
+          onlyMe: {
+            type: Boolean,
+            value: true
+          },
+          everyone: Boolean,
+          openStatus: {
+            type: Boolean,
+            value: true
+          },
+          allKindsStatus: Boolean
+        }
+      }
+
+      ready () {
+        super.ready();
+
+        this.$.buttonMenu.$.overlay.backdropElement.hidden = true;
+      }
+
+      _changeAssigneeFilter(ev) {
+        switch (ev.target.id) {
+          case 'onlyMe':
+            this.onlyMe = true;
+            this.everyone = false;
+            break;
+          case 'everyone':
+            this.onlyMe = false;
+            this.everyone = true;
+            break;
+        }
+      }
+
+      _changeStatusFilter(ev) {
+        switch (ev.target.id) {
+          case 'openStatus':
+            this.openStatus = true;
+            this.allKindsStatus = false;
+            break;
+          case 'allKindsStatus':
+            this.allKindsStatus = true;
+            this.openStatus = false;
+            break;
+        }
+
+      }
+
+    }
+
+    window.customElements.define(BottomFilters.is, BottomFilters);
+  </script>
+</dom-module>

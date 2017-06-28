@@ -1,0 +1,89 @@
+<dom-module id="reports-bar">
+  <template>
+    <style>
+      :host {
+        width: 100%;
+      }
+      :host .reports-bar {
+        display: flex;
+        border-radius: 10px;
+        width: 100%;
+      }
+
+      :host .closed-issues {
+        background: #666;
+        flex-grow: 1;
+        border-radius: 10px 0 0 10px;
+        padding-left: 10px;
+        color: #fff;
+      }
+
+      :host .non-resolved-issues {
+        background: #a8a8a8;
+        flex-grow: 1;
+        padding-left: 10px;
+        color: #fff;
+      }
+
+      :host .unassigned-issues {
+        background: #ccc;
+        flex-grow: 1;
+        border-radius: 0 10px 10px 0;
+        padding-left: 10px;
+        color: #333;
+      }
+    </style>
+
+    <div class="reports-bar">
+      <div class="closed-issues" style$="width: [[closedIssuesWidth]]%">[[closedIssues]]</div>
+      <div class="non-resolved-issues" style$="width: [[nonResolvedIssuesWidth]]%">[[nonResolvedIssues]]</div>
+      <div class="unassigned-issues" style$="width: [[unassignedIssuesWidth]]%">[[unassignedIssues]]</div>
+    </div>
+
+  </template>
+
+  <script>
+    class ReportsBar extends Polymer.Element {
+      static get is() { 
+        return 'reports-bar';
+      }
+
+      static get properties () {
+        return {
+          closedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(closedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
+          nonResolvedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(nonResolvedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
+          unassignedIssuesWidth: {
+            type: Number,
+            computed: '_computeIssuesWidth(unassignedIssues, closedIssues, nonResolvedIssues, unassignedIssues)'
+          },
+          closedIssues: {
+            type: Number,
+            value: 0
+          },
+          nonResolvedIssues: {
+            type: Number,
+            value: 0
+          },
+          unassignedIssues: {
+            type: Number,
+            value: 0
+          }
+        }
+      }
+
+      _computeIssuesWidth (targetIssues, closedIssues, nonResolvedIssues, unassignedIssues) {
+        return (targetIssues / (closedIssues, nonResolvedIssues, unassignedIssues) ) * 100;
+      }
+
+    }
+
+
+    window.customElements.define(ReportsBar.is, ReportsBar);
+  </script>
+</dom-module>

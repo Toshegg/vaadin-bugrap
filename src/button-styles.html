@@ -1,0 +1,26 @@
+<dom-module id="button-styles" theme-for="vaadin-button">
+  <template>
+    <style>
+      [part~="button"] {
+        border-radius: inherit;
+        border: 1px solid #a8a8a8;
+        background: #eee;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 5px 10px;
+      }
+
+      :host([focused]) [part~="button"] {
+        outline: none;
+      }
+
+      :host([active]) [part~="button"] {
+      }
+
+      :host([selected]) [part~="button"] {
+        background: #a8a8a8;
+        color: #fff;
+      }
+    </style>
+  </template>
+</dom-module>
