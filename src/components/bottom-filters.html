@@ -73,8 +73,8 @@
     <div class="row">
       <label for="radio-button-group">Assignee</label>
       <div class="radio-button-group">
-        <vaadin-button id="onlyMe" selected$="[[onlyMe]]">Only me</vaadin-button>
-        <vaadin-button id="everyone" selected$="[[everyone]]">Everyone</vaadin-button>
+        <vaadin-button id="onlyMe" selected$="[[onlyMe]]" on-click="_changeAssigneeFilter">Only me</vaadin-button>
+        <vaadin-button id="everyone" selected$="[[everyone]]" on-click="_changeAssigneeFilter">Everyone</vaadin-button>
       </div>
 
       <label class="status-label">Status</label>
@@ -93,8 +93,8 @@
         </template>
 
         <span class="radio-button-group">
-          <vaadin-button id="openStatus" selected$="[[openStatus]]">Open</vaadin-button>
-          <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]">All Kinds</vaadin-button>
+          <vaadin-button id="openStatus" selected$="[[openStatus]]" on-click="_changeStatusFilter">Open</vaadin-button>
+          <vaadin-button id="allKindsStatus" selected$="[[allKindsStatus]]" on-click="_changeStatusFilter">All Kinds</vaadin-button>
           <vaadin-button id="customStatus" selected$="[[customStatus]]">
             <span>Custom</span>
             <iron-icon icon="icons:arrow-drop-down"></iron-icon>
@@ -129,16 +129,11 @@
       ready () {
         super.ready();
 
-        this.$.onlyMe.addEventListener('click', this._changeAssigneeFilter.bind(this, 'onlyMe'));
-        this.$.everyone.addEventListener('click', this._changeAssigneeFilter.bind(this, 'everyone'));
-
-        this.$.openStatus.addEventListener('click', this._changeStatusFilter.bind(this, 'open'));
-        this.$.allKindsStatus.addEventListener('click', this._changeStatusFilter.bind(this, 'allKinds'));
         this.$.buttonMenu.$.overlay.backdropElement.hidden = true;
       }
 
-      _changeAssigneeFilter(assignee) {
-        switch (assignee) {
+      _changeAssigneeFilter(ev) {
+        switch (ev.target.id) {
           case 'onlyMe':
             this.onlyMe = true;
             this.everyone = false;
@@ -150,13 +145,13 @@
         }
       }
 
-      _changeStatusFilter(issueStatus) {
-        switch (issueStatus) {
-          case 'open':
+      _changeStatusFilter(ev) {
+        switch (ev.target.id) {
+          case 'openStatus':
             this.openStatus = true;
             this.allKindsStatus = false;
             break;
-          case 'allKinds':
+          case 'allKindsStatus':
             this.allKindsStatus = true;
             this.openStatus = false;
             break;
